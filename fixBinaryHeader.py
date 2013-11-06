@@ -37,7 +37,16 @@ if (len(sys.argv)>1):
   except:
     print("Unknown Product code")
     print(hex(readAsWord(fileBytes, 0x414)))
-    exit()
+    try:
+      print("Attempting Product family")
+      familyCode=readAsWord(fileBytes, 0x414)&0xFFFFFF00
+      print(hex(familyCode))
+      magicArray=stupidMagicArray[familyCode]
+      print("Forcing usage of family code, this may or may not work")
+      writeAsWord(familyCode, fileBytes, 0x414)
+    except:
+      print("Unknown Family code")
+      exit()
 
 #  MD5inFile=fileBytes[0xFF0:0x1000]
   MD5ofFile=hashlib.md5(fileBytes[:0xFF0]+fileBytes[0x1000:]).digest()
