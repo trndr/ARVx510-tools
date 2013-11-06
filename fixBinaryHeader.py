@@ -24,7 +24,7 @@ if (len(sys.argv)>1):
   fileInput=open(fileInputName, 'rb')
   fileBytes=bytearray(fileInput.read())
   fileInput.close()
-  fileBytes=fileBytes+bytearray(len(fileBytes)%4096) #File size seems to be required to be of n*8kB long
+  fileBytes=fileBytes+bytearray(4096-len(fileBytes)%4096) #File size seems to be required to be of n*8kB long
   writeAsWord(0xFFFFFFFF, fileBytes, 0x404)     #Can be anything, but for md5 must be this 
   writeAsWord(0x4E415742, fileBytes, 0x408)     #Unknown but has to be this or will trigger an corrupted firmware triger
   writeAsWord(0x00000000, fileBytes, 0x410)     #Can be anything, but for md5 must be this
